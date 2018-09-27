@@ -37,4 +37,30 @@ from kaggle.competitions import twosigmanews
 env = twosigmanews.make_env()
 print('Done!')
 
+(market_train_df, news_train_df) = env.get_training_data()
 
+print("MARKET TRAIN DF")
+print("Dimension set: ", list(market_train_df))
+print("GG, shape of df is ... ", market_train_df.shape)
+
+print("NEWS TRAIN DF")
+print("Dimension set: ", list(news_train_df))
+print("GG, shape of df is ... ", news_train_df.shape)
+
+'''
+get_prediction_days function¶
+
+! Generator which loops through each "prediction day" (trading day) and provides all 
+market and news observations which occurred since the last data you've received. Once you 
+call predict to make your future predictions, you can continue on to the next prediction day.
+
+! Yields:
+
+While there are more prediction day(s) and predict was called successfully since the last 
+yield, yields a tuple of:
+
+market_observations_df: DataFrame with market observations for the next prediction day.
+news_observations_df: DataFrame with news observations for the next prediction day.
+predictions_template_df: DataFrame with assetCode and confidenceValue columns, prefilled with confidenceValue = 0, to be filled in and passed back to the predict function.
+If predict has not been called since the last yield, yields None.
+'''
