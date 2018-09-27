@@ -59,8 +59,34 @@ call predict to make your future predictions, you can continue on to the next pr
 While there are more prediction day(s) and predict was called successfully since the last 
 yield, yields a tuple of:
 
-market_observations_df: DataFrame with market observations for the next prediction day.
-news_observations_df: DataFrame with news observations for the next prediction day.
-predictions_template_df: DataFrame with assetCode and confidenceValue columns, prefilled with confidenceValue = 0, to be filled in and passed back to the predict function.
-If predict has not been called since the last yield, yields None.
+- market_observations_df: DataFrame with market observations for the next prediction day.
+- news_observations_df: DataFrame with news observations for the next prediction day.
+- predictions_template_df: DataFrame with assetCode and confidenceValue columns, 
+prefilled with confidenceValue = 0, to be filled in and passed back to the predict 
+function. If predict has not been called since the last yield, yields None.
 '''
+
+# You can only iterate through a result from `get_prediction_days()` once
+# so be careful not to lose it once you start iterating.
+days = env.get_prediction_days()
+
+(market_obs_df, news_obs_df, predictions_template_df) = next(days)
+
+print("MARKET OBSERVATIONS DF")
+print("Dimension set: ", list(market_obs_df))
+print("GG, shape of df is ... ", market_obs_df.shape)
+
+print("NEWS OBSERVATIONS DF")
+print("Dimension set: ", list(news_obs_df))
+print("GG, shape of df is ... ", news_obs_df.shape)
+
+print("PREDICTIONS TEMPLATE DF")
+print("Dimension set: ", list(predictions_template_df))
+print(predictions_template_df.head())
+
+# YOU WILL GET AN ERROR IF YOU TRY TO CONTINUE ON TO THE NEXT PREDICTION DAY 
+# WITHOUT MAKING A PREDICTION FOR THE CURRENT DAY.
+
+# > next(days)
+# ERROR: You must call `predict` before you can get the data for the next prediction day.
+
